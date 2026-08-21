@@ -49,6 +49,26 @@
   .nav-links a:hover{color:var(--mint);}
   .nav-links a.active{color:var(--mint);}
   .nav-links a.active::after{ content:''; position:absolute; right:0; bottom:0; width:100%; height:2px; background:var(--mint); border-radius:2px; }
+  .nav-right{ display:flex; align-items:center; gap:14px; }
+  .burger{
+    display:none; width:38px; height:38px; border-radius:10px; border:1.5px solid rgba(255,255,255,0.25);
+    background:rgba(255,255,255,0.06); cursor:pointer; align-items:center; justify-content:center;
+    flex-direction:column; gap:5px;
+  }
+  .burger span{ display:block; width:18px; height:2px; background:#fff; border-radius:2px; transition:.25s; }
+  .burger.open span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .burger.open span:nth-child(2){ opacity:0; }
+  .burger.open span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .mobile-menu{
+    display:none; flex-direction:column; background:rgba(18,58,69,0.98); backdrop-filter:blur(10px);
+    max-height:0; overflow:hidden; transition:max-height .3s ease;
+  }
+  .mobile-menu.open{ max-height:280px; }
+  .mobile-menu a{
+    color:#dff2ef; font-size:15px; padding:16px 24px; border-top:1px solid rgba(255,255,255,0.08);
+  }
+  .mobile-menu a.active{ color:var(--mint); font-weight:700; }
+  .mobile-menu .book-btn{ margin:16px 24px; }
   .book-btn{
     background:var(--mint); color:var(--navy); font-weight:700; font-size:14px;
     padding:10px 22px; border-radius:30px; border:none; cursor:pointer;
@@ -313,6 +333,8 @@
   /* ===== responsive ===== */
   @media (max-width: 900px){
     .nav-links{display:none;}
+    .burger{display:flex;}
+    .mobile-menu{display:flex;}
     .hero-content{grid-template-columns:1fr;}
     .hero-text h1{font-size:32px;}
     .video-mock{aspect-ratio:16/10;}
@@ -339,8 +361,17 @@
         <li><a href="implant.html" class="active">دعامة الانتصاب</a></li>
         <li><a href="services.html" class="">الخدمات والأسعار</a></li>
       </ul>
-      <a href="#contact"><button class="book-btn small">احجز موعدك</button></a>
+      <div class="nav-right">
+        <a href="#contact"><button class="book-btn small">احجز موعدك</button></a>
+        <button class="burger" id="burgerBtn" aria-label="فتح القائمة"><span></span><span></span><span></span></button>
+      </div>
     </nav>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" class="">الرئيسية</a>
+      <a href="implant.html" class="active">دعامة الانتصاب</a>
+      <a href="services.html" class="">الخدمات والأسعار</a>
+      <a href="#contact"><button class="book-btn">احجز موعدك</button></a>
+    </div>
   </header>
 
   <section class="page-hero">
@@ -440,6 +471,21 @@
 
   const header = document.getElementById('siteHeader');
   window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 30); });
+
+  const burgerBtn = document.getElementById('burgerBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  if(burgerBtn && mobileMenu){
+    burgerBtn.addEventListener('click', () => {
+      burgerBtn.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        burgerBtn.classList.remove('open');
+        mobileMenu.classList.remove('open');
+      });
+    });
+  }
 
   const revealEls = document.querySelectorAll('.reveal');
   const io = new IntersectionObserver((entries) => {
