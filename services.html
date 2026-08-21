@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الخدمات والأسعار | د. يمان التل</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal-deep:#0e5e6f;
+    --navy:#123a45;
+    --mint:#6fd6c9;
+    --bg-light:#f6fbfa;
+    --ink:#1c2b33;
+    --muted:#5c6e75;
+    --card:#ffffff;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Tajawal', sans-serif;
+    background:var(--bg-light);
+    color:var(--ink);
+    direction:rtl;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand{font-family:'Cairo', sans-serif;}
+  a{text-decoration:none; color:inherit;}
+  .container{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  /* ===== NAV ===== */
+  header{
+    position:fixed; top:0; right:0; left:0; z-index:1000;
+    background:rgba(18,58,69,0.92);
+    backdrop-filter: blur(10px);
+    transition: box-shadow .3s;
+  }
+  header.scrolled{ box-shadow:0 4px 24px rgba(0,0,0,0.18); }
+  nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px; max-width:1180px; margin:0 auto;
+  }
+  .brand{color:#fff; font-size:20px; font-weight:800; display:flex; align-items:center; gap:8px;}
+  .brand .dot{width:8px; height:8px; background:var(--mint); border-radius:50%; display:inline-block;}
+  .nav-links{display:flex; gap:28px; list-style:none;}
+  .nav-links a{color:#dff2ef; font-size:14.5px; font-weight:500; transition:color .2s; position:relative; padding-bottom:4px;}
+  .nav-links a:hover{color:var(--mint);}
+  .nav-links a.active{color:var(--mint);}
+  .nav-links a.active::after{ content:''; position:absolute; right:0; bottom:0; width:100%; height:2px; background:var(--mint); border-radius:2px; }
+  .book-btn{
+    background:var(--mint); color:var(--navy); font-weight:700; font-size:14px;
+    padding:10px 22px; border-radius:30px; border:none; cursor:pointer;
+    transition:transform .2s, box-shadow .2s;
+    box-shadow:0 4px 14px rgba(111,214,201,0.35);
+  }
+  .book-btn:hover{ transform:translateY(-2px); box-shadow:0 8px 20px rgba(111,214,201,0.45); }
+  .book-btn.small{padding:8px 18px; font-size:13px;}
+
+  /* ===== HERO (home, full) ===== */
+  .hero{
+    position:relative; min-height:100vh; display:flex; align-items:center; padding-top:90px; overflow:hidden;
+  }
+  .hero-video-bg{
+    position:absolute; inset:0; z-index:0;
+    background: linear-gradient(120deg, var(--navy), var(--teal-deep) 45%, #0a4a56 100%);
+    background-size:400% 400%;
+    animation: gradientShift 14s ease infinite;
+  }
+  .hero-video-bg::before{
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(circle at 20% 30%, rgba(111,214,201,0.18), transparent 40%),
+                       radial-gradient(circle at 80% 70%, rgba(111,214,201,0.12), transparent 45%);
+  }
+  @keyframes gradientShift{ 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+  .hero-content{
+    position:relative; z-index:2; display:grid; grid-template-columns: 1.05fr 0.95fr; gap:50px;
+    align-items:center; width:100%; max-width:1180px; margin:0 auto; padding:40px 24px 70px;
+  }
+  .hero-text .eyebrow{
+    color:var(--mint); font-size:13.5px; font-weight:700; letter-spacing:.5px;
+    display:flex; align-items:center; gap:8px; margin-bottom:18px;
+    opacity:0; animation: fadeUp .7s ease forwards .1s;
+  }
+  .hero-text .eyebrow::before{content:''; width:26px; height:2px; background:var(--mint); display:inline-block;}
+  .hero-text h1{
+    color:#fff; font-size:44px; line-height:1.35; font-weight:800; margin-bottom:20px;
+    opacity:0; animation: fadeUp .7s ease forwards .25s;
+  }
+  .hero-text h1 span{color:var(--mint);}
+  .hero-text p{
+    color:#cfe9e6; font-size:16px; line-height:1.9; max-width:520px; margin-bottom:30px;
+    opacity:0; animation: fadeUp .7s ease forwards .4s;
+  }
+  .hero-cta{display:flex; gap:14px; opacity:0; animation: fadeUp .7s ease forwards .55s;}
+  .ghost-btn{
+    border:1.5px solid rgba(255,255,255,0.35); color:#fff; padding:10px 22px; border-radius:30px;
+    font-size:14px; font-weight:600; transition:.2s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .ghost-btn:hover{background:rgba(255,255,255,0.1); border-color:#fff;}
+  @keyframes fadeUp{ from{opacity:0; transform:translateY(18px);} to{opacity:1; transform:translateY(0);} }
+
+  .video-mock{
+    position:relative; z-index:2; border-radius:20px; overflow:hidden; aspect-ratio:4/5;
+    background:linear-gradient(160deg,#0a3038,#0e5e6f 60%, #145f6e);
+    box-shadow:0 30px 60px rgba(0,0,0,0.35);
+    opacity:0; animation: fadeUp .8s ease forwards .3s;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .video-mock::after{
+    content:''; position:absolute; inset:0;
+    background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 26px);
+  }
+  .play-btn{
+    width:76px; height:76px; border-radius:50%; background:rgba(255,255,255,0.16);
+    border:1.5px solid rgba(255,255,255,0.6); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:3; position:relative; transition:.25s;
+  }
+  .play-btn:hover{ background:var(--mint); border-color:var(--mint); transform:scale(1.08); }
+  .play-btn::after{
+    content:''; width:0; height:0; margin-right:-4px;
+    border-top:13px solid transparent; border-bottom:13px solid transparent; border-right:20px solid #fff;
+  }
+  .video-caption{
+    position:absolute; bottom:22px; right:22px; left:22px; color:#dff2ef; font-size:12.5px;
+    display:flex; justify-content:space-between; z-index:3;
+  }
+  .pulse-ring{
+    position:absolute; width:76px; height:76px; border-radius:50%; border:1.5px solid var(--mint);
+    animation: pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse{ 0%{transform:scale(1); opacity:.7;} 100%{transform:scale(1.9); opacity:0;} }
+
+  /* ===== PAGE HERO (inner pages, compact) ===== */
+  .page-hero{
+    position:relative; padding:150px 0 70px; overflow:hidden;
+    background: linear-gradient(120deg, var(--navy), var(--teal-deep) 45%, #0a4a56 100%);
+    background-size:400% 400%; animation: gradientShift 14s ease infinite;
+  }
+  .page-hero::before{
+    content:''; position:absolute; inset:0;
+    background-image: radial-gradient(circle at 15% 20%, rgba(111,214,201,0.16), transparent 40%);
+  }
+  .page-hero .inner{ position:relative; z-index:2; max-width:760px; }
+  .page-hero .eyebrow{
+    color:var(--mint); font-size:13px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:14px;
+  }
+  .page-hero .eyebrow::before{content:''; width:24px; height:2px; background:var(--mint); display:inline-block;}
+  .page-hero h1{ color:#fff; font-size:36px; font-weight:800; margin-bottom:14px; line-height:1.4; }
+  .page-hero p{ color:#cfe9e6; font-size:15px; line-height:1.9; }
+
+  /* ===== reveal on scroll ===== */
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1; transform:translateY(0);}
+
+  /* ===== STATS STRIP ===== */
+  .stats{
+    background:var(--card); position:relative; z-index:3;
+    display:grid; grid-template-columns:repeat(4,1fr); border-bottom:1px solid #e7eef0;
+  }
+  .stats.floating{ margin-top:-1px; }
+  .stat{ padding:26px 10px; text-align:center; border-left:1px solid #eef3f4; }
+  .stat:last-child{border-left:none;}
+  .stat .num{font-size:30px; font-weight:800; color:var(--teal-deep); font-family:'Cairo',sans-serif;}
+  .stat .lbl{font-size:12.5px; color:var(--muted); margin-top:4px;}
+
+  /* ===== SECTION shared ===== */
+  section{padding:90px 0;}
+  section.tight{padding:70px 0;}
+  .section-head{ text-align:center; max-width:640px; margin:0 auto 50px; }
+  .section-head.right{ text-align:right; margin:0 0 26px; max-width:none; }
+  .section-head .kicker{ color:var(--teal-deep); font-weight:700; font-size:13px; letter-spacing:.5px; }
+  .section-head h2{ font-size:32px; margin-top:10px; color:var(--navy); }
+  .section-head p{ color:var(--muted); font-size:15px; margin-top:12px; line-height:1.9; }
+
+  /* ===== ABOUT / ACHIEVEMENTS ===== */
+  .about{ background:var(--card); }
+  .about-grid{ display:grid; grid-template-columns: 0.8fr 1.2fr; gap:60px; align-items:center; }
+  .about-photo{
+    aspect-ratio:3/3.6; border-radius:22px; background:linear-gradient(150deg,#dff2ef,#bfe4de);
+    position:relative; overflow:hidden; display:flex; align-items:end; justify-content:center;
+  }
+  .about-photo .silhouette{
+    width:70%; height:78%; background:linear-gradient(180deg, rgba(14,94,111,0.18), rgba(14,94,111,0.5));
+    border-radius:50% 50% 0 0; position:absolute; bottom:0;
+  }
+  .about-photo .badge{
+    position:absolute; bottom:18px; right:18px; left:18px;
+    background:rgba(255,255,255,0.92); border-radius:14px; padding:14px 16px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.12);
+  }
+  .about-photo .badge b{color:var(--teal-deep); display:block; font-size:15px;}
+  .about-photo .badge span{color:var(--muted); font-size:12px;}
+  .achieve-list{ display:grid; gap:18px; margin-top:26px; }
+  .achieve-item{ display:flex; gap:16px; align-items:flex-start; padding:16px; border-radius:14px; transition:.25s; }
+  .achieve-item:hover{ background:var(--bg-light); transform:translateX(-4px); }
+  .achieve-icon{
+    width:44px; height:44px; min-width:44px; border-radius:12px; background:var(--teal-deep);
+    color:#fff; display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Cairo',sans-serif;
+  }
+  .achieve-item h3{font-size:15.5px; color:var(--navy); margin-bottom:4px;}
+  .achieve-item p{font-size:13px; color:var(--muted); line-height:1.8;}
+
+  /* ===== OVERVIEW / MECHANISM (implant page) ===== */
+  .info-block{ background:var(--card); }
+  .info-grid{ display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+  .info-grid.reverse .info-visual{ order:2; }
+  .info-visual{
+    aspect-ratio:4/3; border-radius:20px; background:linear-gradient(150deg,#eef7f6,#d6ede9);
+    position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center;
+  }
+  .info-visual .icon-circle{
+    width:110px; height:110px; border-radius:50%; background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
+    box-shadow:0 20px 40px rgba(14,94,111,0.25);
+  }
+  .info-visual .icon-circle svg{ width:50px; height:50px; }
+  .info-text h2{ font-size:28px; color:var(--navy); margin-bottom:16px; }
+  .info-text p{ font-size:14.5px; color:var(--muted); line-height:2; margin-bottom:14px; }
+  .info-text .kicker{ color:var(--teal-deep); font-weight:700; font-size:13px; margin-bottom:10px; display:block; }
+
+  .steps{ display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:10px; }
+  .step-card{
+    background:var(--bg-light); border-radius:16px; padding:26px; border:1px solid #e7eef0; transition:.25s;
+  }
+  .step-card:hover{ transform:translateY(-4px); box-shadow:0 14px 30px rgba(14,58,69,0.08); }
+  .step-num{
+    width:38px; height:38px; border-radius:10px; background:var(--navy); color:var(--mint); font-weight:800;
+    display:flex; align-items:center; justify-content:center; margin-bottom:16px; font-family:'Cairo',sans-serif;
+  }
+  .step-card h3{ font-size:15.5px; color:var(--navy); margin-bottom:8px; }
+  .step-card p{ font-size:13px; color:var(--muted); line-height:1.85; }
+
+  /* ===== SERVICES (services page) ===== */
+  .services{ background:var(--card); }
+  .service-cats{ display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+  .service-cat{
+    background:var(--bg-light); border-radius:18px; padding:26px; border:1px solid #e7eef0; transition:.25s;
+  }
+  .service-cat:hover{ box-shadow:0 14px 30px rgba(14,58,69,0.08); transform:translateY(-3px); }
+  .service-cat-head{ display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+  .service-cat-icon{
+    width:42px; height:42px; min-width:42px; border-radius:12px; background:var(--teal-deep); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-family:'Cairo',sans-serif; font-size:13px;
+  }
+  .service-cat h3{ font-size:16px; color:var(--navy); }
+  .service-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .service-chip{
+    background:#fff; border:1px solid #e1e8ea; color:var(--ink); font-size:12.5px; padding:8px 14px;
+    border-radius:20px; transition:.2s;
+  }
+  .service-chip:hover{ border-color:var(--teal-deep); color:var(--teal-deep); }
+
+  /* ===== PRICING BY COUNTRY ===== */
+  .pricing{ background:linear-gradient(180deg,#f6fbfa,#eef7f6); }
+  .country-tabs{ display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .country-tab{
+    padding:10px 20px; border-radius:30px; background:#fff; border:1.5px solid #e1e8ea;
+    font-size:13.5px; font-weight:600; color:var(--muted); cursor:pointer; transition:.2s;
+    display:flex; align-items:center; gap:8px;
+  }
+  .country-tab .flag{font-size:16px;}
+  .country-tab:hover{ border-color:var(--teal-deep); color:var(--teal-deep); }
+  .country-tab.active{ background:var(--teal-deep); border-color:var(--teal-deep); color:#fff; }
+  .price-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .price-cards.wide{ grid-template-columns:repeat(3,1fr); }
+  .price-card{
+    background:#fff; border-radius:18px; padding:26px 22px; text-align:center;
+    box-shadow:0 6px 24px rgba(14,58,69,0.06); transition:.3s; border:1.5px solid transparent;
+  }
+  .price-card:hover{ transform:translateY(-6px); box-shadow:0 16px 34px rgba(14,58,69,0.12); border-color:var(--mint); }
+  .price-card h3{ font-size:15px; color:var(--navy); margin-bottom:6px; min-height:38px; }
+  .price-card .price{ font-size:30px; font-weight:800; color:var(--teal-deep); font-family:'Cairo',sans-serif; margin:12px 0 4px; transition:.25s; }
+  .price-card .price span{font-size:13px; color:var(--muted); font-weight:500;}
+  .price-card p.desc{ font-size:12px; color:var(--muted); line-height:1.75; margin-bottom:16px; min-height:50px; }
+  .price-card .book-btn{ width:100%; }
+  .price-note{ text-align:center; color:var(--muted); font-size:11.5px; margin-top:18px; }
+
+  /* ===== CONTACT / FOOTER INFO ===== */
+  .contact-info{ background:var(--navy); padding:70px 0 40px; }
+  .contact-grid{ display:grid; grid-template-columns: 0.85fr 1.15fr; gap:50px; align-items:center; }
+  .clinic-photo{
+    aspect-ratio:4/3; border-radius:18px; overflow:hidden; position:relative;
+    background:linear-gradient(150deg,#1c5560,#0a2b33);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .clinic-photo .frame-tag{
+    position:absolute; top:14px; right:14px; background:rgba(255,255,255,0.12); color:#dff2ef;
+    font-size:11px; padding:5px 12px; border-radius:20px; border:1px solid rgba(255,255,255,0.2);
+  }
+  .clinic-photo svg{ width:70px; height:70px; opacity:.55; }
+  .contact-items{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .contact-item{
+    display:flex; gap:14px; align-items:flex-start; background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:18px;
+  }
+  .contact-icon{
+    width:38px; height:38px; min-width:38px; border-radius:10px; background:var(--mint); color:var(--navy);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .contact-icon svg{ width:19px; height:19px; }
+  .contact-item h4{ color:#fff; font-size:13.5px; margin-bottom:4px; }
+  .contact-item p, .contact-item a{ color:#a9c9c4; font-size:12.5px; line-height:1.7; display:block; }
+  .contact-item a:hover{ color:var(--mint); }
+
+  /* ===== FOOTER / CTA ===== */
+  .cta-band{ background:linear-gradient(120deg,var(--navy),var(--teal-deep)); text-align:center; padding:70px 24px; color:#fff; }
+  .cta-band h2{ font-size:28px; margin-bottom:14px; }
+  .cta-band p{ color:#cfe9e6; margin-bottom:26px; font-size:14.5px; }
+
+  footer{ background:#0c2b33; color:#9fc0bc; padding:26px 24px; text-align:center; font-size:12.5px; }
+
+  /* ===== responsive ===== */
+  @media (max-width: 900px){
+    .nav-links{display:none;}
+    .hero-content{grid-template-columns:1fr;}
+    .hero-text h1{font-size:32px;}
+    .video-mock{aspect-ratio:16/10;}
+    .about-grid{grid-template-columns:1fr;}
+    .info-grid{grid-template-columns:1fr;}
+    .info-grid.reverse .info-visual{ order:0; }
+    .stats{grid-template-columns:repeat(2,1fr);}
+    .price-cards{grid-template-columns:1fr;}
+    .service-cats{grid-template-columns:1fr;}
+    .steps{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+    .contact-items{grid-template-columns:1fr;}
+    .page-hero h1{font-size:28px;}
+  }
+</style>
+</head>
+<body>
+
+  <header id="siteHeader">
+    <nav>
+      <a href="index.html" class="brand"><span class="dot"></span> د. يمان التل</a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="">الرئيسية</a></li>
+        <li><a href="implant.html" class="">دعامة الانتصاب</a></li>
+        <li><a href="services.html" class="active">الخدمات والأسعار</a></li>
+      </ul>
+      <a href="#contact"><button class="book-btn small">احجز موعدك</button></a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="container inner">
+      <div class="eyebrow">خدماتنا</div>
+      <h1>خدماتنا وأسعارنا</h1>
+      <p>نغطي كافة تخصصات جراحة المسالك البولية والذكورة، مع أسعار شفافة تظهر تلقائيًا حسب دولتك.</p>
+    </div>
+  </section>
+
+  <section class="services">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="kicker">مجالات الخدمة</div>
+        <h2>خدمات طبية متكاملة</h2>
+      </div>
+      <div class="service-cats">
+
+        <div class="service-cat reveal">
+          <div class="service-cat-head">
+            <div class="service-cat-icon">01</div>
+            <h3>البروستات</h3>
+          </div>
+          <div class="service-chips">
+            <span class="service-chip">تضخم البروستات</span>
+            <span class="service-chip">سرطان البروستات</span>
+          </div>
+        </div>
+
+        <div class="service-cat reveal">
+          <div class="service-cat-head">
+            <div class="service-cat-icon">02</div>
+            <h3>الكلى والمسالك البولية</h3>
+          </div>
+          <div class="service-chips">
+            <span class="service-chip">التهابات المسالك البولية</span>
+            <span class="service-chip">حصى الكلى</span>
+          </div>
+        </div>
+
+        <div class="service-cat reveal">
+          <div class="service-cat-head">
+            <div class="service-cat-icon">03</div>
+            <h3>أورام المسالك</h3>
+          </div>
+          <div class="service-chips">
+            <span class="service-chip">علاج أورام المسالك</span>
+            <span class="service-chip">الاستئصال الجذري وزراعة المثانة</span>
+          </div>
+        </div>
+
+        <div class="service-cat reveal">
+          <div class="service-cat-head">
+            <div class="service-cat-icon">04</div>
+            <h3>العقم والذكورة</h3>
+          </div>
+          <div class="service-chips">
+            <span class="service-chip">سرعة القذف</span>
+            <span class="service-chip">ضعف الانتصاب</span>
+            <span class="service-chip">علاج الخصية المعلقة والنطاطة</span>
+            <span class="service-chip">علاج العقم عند الرجال</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pricing" id="pricing">
+    <div class="container">
+      <div class="section-head reveal">
+        <div class="kicker">الأسعار</div>
+        <h2>اختر دولتك لعرض الأسعار الخاصة بك</h2>
+        <p>الأسعار تختلف تلقائيًا حسب الدولة التي تختارها لضمان الشفافية الكاملة.</p>
+      </div>
+
+      <div class="country-tabs reveal">
+        <div class="country-tab active" data-country="jo"><span class="flag">🇯🇴</span> الأردن</div>
+        <div class="country-tab" data-country="sa"><span class="flag">🇸🇦</span> السعودية</div>
+        <div class="country-tab" data-country="ae"><span class="flag">🇦🇪</span> الإمارات</div>
+        <div class="country-tab" data-country="kw"><span class="flag">🇰🇼</span> الكويت</div>
+        <div class="country-tab" data-country="qa"><span class="flag">🇶🇦</span> قطر</div>
+      </div>
+
+      <div class="price-cards wide reveal">
+
+        <div class="price-card">
+          <h3>كشفية أولى</h3>
+          <div class="price" id="price-consult">--</div>
+          <p class="desc">فحص شامل واستشارة طبية أولية مع الدكتور مباشرة.</p>
+          <a href="#contact"><button class="book-btn">احجز الآن</button></a>
+        </div>
+
+        <div class="price-card">
+          <h3>علاج التهاب المسالك</h3>
+          <div class="price" id="price-uti">--</div>
+          <p class="desc">تشخيص ومزرعة بول وتحديد العلاج المناسب.</p>
+          <a href="#contact"><button class="book-btn">احجز الآن</button></a>
+        </div>
+
+        <div class="price-card">
+          <h3>تفتيت حصى بالليزر</h3>
+          <div class="price" id="price-stone">--</div>
+          <p class="desc">جلسة تفتيت حصى الكلى بأحدث تقنيات الليزر.</p>
+          <a href="#contact"><button class="book-btn">احجز الآن</button></a>
+        </div>
+
+        <div class="price-card">
+          <h3>فحص البروستات الشامل</h3>
+          <div class="price" id="price-prostate">--</div>
+          <p class="desc">فحص PSA وتصوير متكامل لتقييم البروستات.</p>
+          <a href="#contact"><button class="book-btn">احجز الآن</button></a>
+        </div>
+
+        <div class="price-card">
+          <h3>استشارة عقم وذكورة</h3>
+          <div class="price" id="price-fertility">--</div>
+          <p class="desc">تقييم متكامل لحالات ضعف الانتصاب وسرعة القذف.</p>
+          <a href="#contact"><button class="book-btn">احجز الآن</button></a>
+        </div>
+
+        <div class="price-card">
+          <h3>تقييم دعامة انتصاب</h3>
+          <div class="price" id="price-implant">--</div>
+          <p class="desc">جلسة تقييم أولية قبل تركيب الدعامة الهيدروليكية.</p>
+          <a href="#contact"><button class="book-btn">احجز الآن</button></a>
+        </div>
+      </div>
+      <p class="price-note">* الأسعار تقديرية توضيحية لغايات العرض التجريبي (ديمو) فقط.</p>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <h2 class="reveal">لم تجد ما تبحث عنه؟</h2>
+    <p class="reveal">تواصل معنا مباشرة وسنساعدك في تحديد الخدمة المناسبة.</p>
+    <a href="#contact"><button class="book-btn reveal">تواصل معنا</button></a>
+  </div>
+
+
+  <section class="contact-info" id="contact">
+    <div class="container contact-grid">
+      <div class="clinic-photo reveal">
+        <span class="frame-tag">صورة العيادة</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="#dff2ef" stroke-width="1.4"><path d="M4 21V9l8-6 8 6v12" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 3v6M9 6h6" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="section-head right reveal" style="margin-bottom:22px;">
+          <div class="kicker" style="color:var(--mint);">تواصل معنا</div>
+          <h2 style="color:#fff;">بيانات التواصل والعيادة</h2>
+        </div>
+        <div class="contact-items reveal">
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+            <div><h4>عنوان العيادة</h4><p>مستشفى العبدلي، شارع الاستثمار، عمّان 11191</p></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h4>هاتف / واتساب</h4><a href="tel:+962790345019" dir="ltr" style="display:inline-block;">+962 790345019</a></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18v12H3z" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 7l9 6 9-6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h4>البريد الإلكتروني</h4><a href="mailto:yaman_tal@yahoo.com">yaman_tal@yahoo.com</a></div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            <div><h4>أوقات الدوام</h4><p>من السبت للأربعاء، 8 صباحًا حتى 6 مساءً</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    نسخة تجريبية (ديمو) لتصميم موقع د. يمان التل الجديد — جميع الحقوق محفوظة
+  </footer>
+<script>
+
+  const header = document.getElementById('siteHeader');
+  window.addEventListener('scroll', () => { header.classList.toggle('scrolled', window.scrollY > 30); });
+
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.12});
+  revealEls.forEach(el => io.observe(el));
+
+  const counters = document.querySelectorAll('.num[data-count]');
+  const cio = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const el = e.target;
+        const target = parseFloat(el.dataset.count);
+        const isDecimal = el.dataset.count.includes('.');
+        let cur = 0;
+        const step = target / 50;
+        const t = setInterval(() => {
+          cur += step;
+          if(cur >= target){ cur = target; clearInterval(t); }
+          el.textContent = isDecimal ? cur.toFixed(1) : Math.ceil(cur).toLocaleString('en-US');
+        }, 20);
+        cio.unobserve(el);
+      }
+    });
+  }, {threshold:0.5});
+  counters.forEach(el => cio.observe(el));
+
+
+  const priceData = {"jo":{"consult":25,"uti":20,"stone":180,"prostate":45,"fertility":30,"implant":40},"sa":{"consult":60,"uti":50,"stone":430,"prostate":110,"fertility":70,"implant":95},"ae":{"consult":70,"uti":55,"stone":505,"prostate":125,"fertility":85,"implant":110},"kw":{"consult":65,"uti":50,"stone":470,"prostate":115,"fertility":80,"implant":105},"qa":{"consult":70,"uti":55,"stone":485,"prostate":120,"fertility":80,"implant":110}};
+  const currency = {"jo":"دينار","sa":"ريال","ae":"درهم","kw":"دينار","qa":"ريال"};
+  const serviceKeys = ["consult","uti","stone","prostate","fertility","implant"];
+  function renderPrices(country){
+    const cur = currency[country];
+    serviceKeys.forEach(k => {
+      const el = document.getElementById('price-' + k);
+      if(el) el.innerHTML = priceData[country][k] + ' <span>' + cur + '</span>';
+    });
+  }
+  document.querySelectorAll('.country-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.country-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      renderPrices(tab.dataset.country);
+    });
+  });
+  renderPrices(document.querySelector('.country-tab.active').dataset.country);
+
+</script>
+</body>
+</html>
